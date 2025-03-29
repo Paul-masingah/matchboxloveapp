@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,9 +7,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Search, Send, Sparkles, Info, Phone, VideoIcon, User, Settings, LogOut } from "lucide-react";
+import { Heart, Search, Send, Sparkles, Info, Phone, VideoIcon, User, Settings, LogOut, MessageCircle } from "lucide-react";
 
-// Mock conversation data
 const conversations = [
   {
     id: 1,
@@ -54,7 +52,6 @@ const conversations = [
   },
 ];
 
-// Mock messages for conversation
 const mockMessages = [
   {
     id: 1,
@@ -114,7 +111,6 @@ const mockMessages = [
   },
 ];
 
-// AI suggestions for conversation
 const aiSuggestions = [
   "I'd love to meet at 2pm on Saturday! Looking forward to it.",
   "Yes, I heard about the film screening. Would you be interested in going together?",
@@ -153,7 +149,6 @@ const Chat = () => {
     setMessages([...messages, newMsg]);
     setNewMessage("");
     
-    // Simulate response after a delay
     setTimeout(() => {
       const response = {
         id: messages.length + 2,
@@ -186,7 +181,6 @@ const Chat = () => {
     setMessages([...messages, newMsg]);
     setShowAiSuggestions(false);
     
-    // Simulate response after a delay
     setTimeout(() => {
       const response = {
         id: messages.length + 2,
@@ -216,7 +210,6 @@ const Chat = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Navigation */}
       <header className="bg-white border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
@@ -258,7 +251,6 @@ const Chat = () => {
 
       <div className="flex-1 flex container mx-auto my-6">
         <Card className="flex-1 flex overflow-hidden">
-          {/* Conversations Sidebar */}
           <div className="w-1/3 border-r">
             <div className="p-4">
               <div className="relative mb-4">
@@ -309,9 +301,7 @@ const Chat = () => {
             </div>
           </div>
           
-          {/* Chat Area */}
           <div className="flex-1 flex flex-col">
-            {/* Chat Header */}
             <div className="p-4 border-b flex justify-between items-center">
               <div className="flex items-center space-x-3">
                 <Avatar>
@@ -345,7 +335,6 @@ const Chat = () => {
               </div>
             </div>
             
-            {/* Messages */}
             <ScrollArea className="flex-1 p-4">
               <div className="space-y-4">
                 {messages.map((message) => (
@@ -371,7 +360,6 @@ const Chat = () => {
               </div>
             </ScrollArea>
             
-            {/* AI Suggestions */}
             {showAiSuggestions && (
               <div className="p-2 border-t">
                 <div className="flex items-center mb-2">
@@ -400,7 +388,6 @@ const Chat = () => {
               </div>
             )}
             
-            {/* Message Input */}
             <div className="p-4 border-t flex space-x-2">
               <Input
                 placeholder="Type a message..."
