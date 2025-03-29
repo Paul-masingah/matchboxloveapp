@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Heart, Users, Calendar, Camera, MessageCircle, User, Settings, LogOut } from "lucide-react";
+import { Heart, Users, Calendar, Camera, MessageCircle, User, Settings, LogOut, Image as ImageIcon } from "lucide-react";
 
 // Mock user data
 const userData = {
@@ -23,6 +23,22 @@ const userData = {
     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     "https://images.unsplash.com/photo-1521119989659-a83eee488004?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     "https://images.unsplash.com/photo-1556911261-6bd341186b2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  ],
+  memoryPhotos: [
+    {
+      image: "https://images.unsplash.com/photo-1592861611647-9968624995ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      caption: "Hiking at Yosemite, Summer 2023"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1541795795328-f073b763494e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      caption: "Beach day with friends"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1605908492171-ad12a6877df8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      caption: "Concert night downtown"
+    }
   ],
   compatibilityStats: {
     personalityMatch: 85,
@@ -248,6 +264,7 @@ const Profile = () => {
             <Tabs defaultValue="photos">
               <TabsList className="w-full mb-6">
                 <TabsTrigger value="photos" className="flex-1">Photos</TabsTrigger>
+                <TabsTrigger value="memories" className="flex-1">Memories</TabsTrigger>
                 <TabsTrigger value="compatibility" className="flex-1">Compatibility Profile</TabsTrigger>
                 <TabsTrigger value="activity" className="flex-1">Recent Activity</TabsTrigger>
               </TabsList>
@@ -305,6 +322,76 @@ const Profile = () => {
                           </div>
                           <DialogFooter>
                             <Button onClick={handleAddPhoto}>Upload Photo</Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="memories" className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>My Memories</CardTitle>
+                    <CardDescription>Special moments from your journey</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 gap-6">
+                      {userData.memoryPhotos.map((memory, index) => (
+                        <div key={index} className="border rounded-lg overflow-hidden">
+                          <div className="aspect-video relative">
+                            <img 
+                              src={memory.image} 
+                              alt={memory.caption} 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <p className="font-medium">{memory.caption}</p>
+                            <div className="flex items-center mt-2 text-sm text-gray-500">
+                              <Calendar className="h-4 w-4 mr-1" />
+                              <span>Added on June 15, 2023</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                            <div className="text-center">
+                              <ImageIcon className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                              <p className="text-sm font-medium text-gray-700">Add a Memory</p>
+                              <p className="text-xs text-gray-500 mt-1">Share a special moment with potential matches</p>
+                            </div>
+                          </div>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Add a New Memory</DialogTitle>
+                            <DialogDescription>
+                              Share a special moment that shows your personality and interests.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="py-4 space-y-4">
+                            <div className="border-2 border-dashed border-gray-300 rounded-md p-6 flex flex-col items-center justify-center">
+                              <ImageIcon className="h-10 w-10 text-gray-400 mb-4" />
+                              <p className="text-sm text-gray-500 mb-2">Drag and drop your photo here, or click to browse</p>
+                              <Input type="file" className="max-w-xs" />
+                            </div>
+                            <div>
+                              <Label htmlFor="caption">Caption</Label>
+                              <Input id="caption" placeholder="Describe this memory..." />
+                            </div>
+                          </div>
+                          <DialogFooter>
+                            <Button onClick={() => {
+                              toast({
+                                title: "Memory Added",
+                                description: "Your memory has been added to your profile.",
+                              });
+                            }}>Add Memory</Button>
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>

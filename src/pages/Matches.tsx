@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { 
   Heart, MessageCircle, User, Settings, LogOut, Calendar, MapPin,
-  ThumbsUp, ThumbsDown, Star, Filter, Sparkles, Zap, Users
+  ThumbsUp, ThumbsDown, Star, Filter, Sparkles, Zap, Users, ImageIcon
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -31,6 +31,18 @@ const potentialMatches = [
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1526080652727-5b77f74eacd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    ],
+    lifestylePhotos: [
+      {
+        image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        caption: "At my favorite museum"
+      },
+      {
+        image: "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        caption: "Cooking my signature dish"
+      }
     ],
     compatibility: 94,
     commonInterests: 5,
@@ -56,6 +68,17 @@ const potentialMatches = [
       "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    ],
+    lifestylePhotos: [
+      {
+        image: "https://images.unsplash.com/photo-1522163182402-834f871fd851?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        caption: "Rock climbing in Yosemite"
+      },
+      {
+        image: "https://images.unsplash.com/photo-1518732714860-b62714ce0c59?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        caption: "At a music festival last summer"
+      }
     ],
     compatibility: 89,
     commonInterests: 3,
@@ -421,6 +444,7 @@ const Matches = () => {
             <Tabs defaultValue="discover">
               <TabsList className="w-full mb-6">
                 <TabsTrigger value="discover" className="flex-1">Discover</TabsTrigger>
+                <TabsTrigger value="lifestyle" className="flex-1">Lifestyle Photos</TabsTrigger>
                 <TabsTrigger value="events" className="flex-1">Recommended Events</TabsTrigger>
               </TabsList>
               
@@ -557,6 +581,65 @@ const Matches = () => {
                       onClick={handleLike}
                     >
                       <Heart className="h-6 w-6" />
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="lifestyle" className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Lifestyle Photos</CardTitle>
+                    <CardDescription>Get a glimpse into {currentMatch.name}'s daily life</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {currentMatch.lifestylePhotos?.map((photo, index) => (
+                        <div key={index} className="border rounded-lg overflow-hidden">
+                          <div className="aspect-video relative">
+                            <img 
+                              src={photo.image} 
+                              alt={photo.caption} 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <p className="font-medium">{photo.caption}</p>
+                            <div className="flex items-center mt-2 text-sm text-gray-500">
+                              <Heart className="h-4 w-4 mr-1" />
+                              <span>Shared interest: {currentMatch.interests[index % currentMatch.interests.length]}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-dashed">
+                      <div className="flex items-start space-x-3">
+                        <Sparkles className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                        <div>
+                          <p className="text-sm font-medium">Lifestyle Compatibility</p>
+                          <p className="text-sm text-gray-600 mt-1">
+                            You and {currentMatch.name} share similar lifestyle preferences in 
+                            {currentMatch.interests.slice(0, 2).join(" and ")}. These shared activities 
+                            could form a great foundation for your connection!
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button 
+                      onClick={() => {
+                        toast({
+                          title: "Message Sent",
+                          description: `You've started a conversation with ${currentMatch.name} about their lifestyle photos!`,
+                        });
+                      }}
+                      className="w-full"
+                    >
+                      <MessageCircle className="mr-2 h-4 w-4" />
+                      Start a Conversation
                     </Button>
                   </CardFooter>
                 </Card>
