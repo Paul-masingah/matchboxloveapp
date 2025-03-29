@@ -10,6 +10,11 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
+import Matches from "./pages/Matches";
+import Chat from "./pages/Chat";
+import AboutUs from "./pages/AboutUs";
+import Onboarding from "./pages/Onboarding";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -27,6 +32,11 @@ function App() {
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/matches" element={<Matches />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/onboarding" element={<Onboarding />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
