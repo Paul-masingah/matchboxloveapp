@@ -9,18 +9,33 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from "@/hooks/use-toast";
 import { Heart, CheckCircle2, ArrowRight, Facebook, Mail, Github } from "lucide-react";
 
+// Define interfaces for our form data and errors
+interface FormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  name: string;
+}
+
+interface FormErrors {
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  name?: string;
+}
+
 const Auth = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState("login");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
     confirmPassword: "",
     name: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -31,7 +46,7 @@ const Auth = () => {
     }
   }, [location]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -39,16 +54,16 @@ const Auth = () => {
     });
     
     // Clear error when user types
-    if (errors[name]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors({
         ...errors,
-        [name]: null,
+        [name]: undefined,
       });
     }
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: FormErrors = {};
     
     if (activeTab === "signup") {
       if (!formData.name.trim()) {
@@ -76,7 +91,7 @@ const Auth = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) {
@@ -109,7 +124,7 @@ const Auth = () => {
     }, 1500);
   };
 
-  const handleSocialLogin = (provider) => {
+  const handleSocialLogin = (provider: string) => {
     setIsLoading(true);
     
     // Simulate social authentication process
