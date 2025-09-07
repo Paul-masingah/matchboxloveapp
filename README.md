@@ -34,6 +34,12 @@ npm i
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
+
+# Step 5: Run the tests to ensure everything is working correctly.
+npm test
+
+# Step 6: Run the tests with coverage to see the test coverage.
+npm run coverage
 ```
 
 **Edit a file directly in GitHub**
